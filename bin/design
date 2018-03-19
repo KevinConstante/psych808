@@ -1,0 +1,20 @@
+#!/bash/bin
+#This is a script run design.fsf feat for everyone
+
+ofmri=$HOME/Projects/ds008
+cd $ofmri
+
+#bold_dirs=$(echo sub???/BOLD/task*)
+
+#for bold_dir in $bold_dirs ; do
+	
+	#Copy current tmp design.fsf into new subject bold_dir(task001_run001)
+	cp ~/Projects/tmp/sub004/model/task001_run001.feat/design.fsf ~/Projects/ds008/sub001/BOLD/task001_run001
+	#copy a different subject data into ~/Projects/tmp
+	cp -r ~/Projects/ds008/sub001 ~/Projects/tmp
+	#copy the copied design.fsf into a different run folder of the same task for that new subject
+	cp  ~/Projects/tmp/sub001/BOLD/task001_run001/design.fsf ~/Projects/tmp/sub001/BOLD/task001_run002
+	#change dir into new subjct bold_dir(task001_run002)
+	cd  /Projects/tmp/sub001/BOLD/task_run002
+	#nano edit the design.fsf 
+	#Enter this command $ feat design.fsf > ~/Projects/output/feat_test.log

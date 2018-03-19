@@ -1,0 +1,59 @@
+# This a document of scripts in ~/Projects/scripts
+
+======================================================================
+
+00_setup_ds008
+
+This script will download the data from Open fMRI.
+It delete files that we do not need.
+It will organize the directories that is used by the UM fMRI Lab.
+
+
+=====================================================================
+
+01_brain_extraction_ds008
+
+This script will use bet for each subject's autonomy file
+
+
+
+====================================================================
+
+02_check_images_ds008
+
+This script uses fsl_info for each subjects anatomical and bold_file.
+It will print the dims and pdims.
+This script does it the old fashion way: variables are set for each task and each run.
+
+
+
+===================================================================
+
+02_check_images_find_ds008
+
+This script uses fsl_info for each subjects anatomical and bold_file.
+It will print the dims and pdims
+This script is the same as 02_check_images_ds008.
+It used bold_files=$(find sub??? -name .bold.nii.gz). This is a list of each bold_file.
+
+
+=================================================================
+
+03_fix_bold_TR_ds008
+
+This script will change the TR of bold file from 1.000000 to 2.000000 
+
+
+
+================================================================
+
+04_prepare_bold_data_ds008
+
+This script will create motion assesment folder in bold_file.
+It will then use fsl_motion_outliers to dectect motion. 
+Output of fsl_motion_outliers goes into the motiona assessment folder of the bold_file.
+The script checks if a confound.txt file was created. Lack of confound.txt indicates that no motion outliers were detected.
+If the confound.txt does not exist, then an empty confound.txt is created.
+
+
+==============================================================

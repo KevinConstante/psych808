@@ -1,0 +1,25 @@
+#!/bash/bin
+#This is a script that will search subject folder and print location of bold.nii.gz file
+ofmri=$HOME/Projects/ds008
+cd $ofmri
+subjects=$(ls -d sub???)
+
+#version 1
+
+#for subject in $subjects; do
+#	echo "                 "
+#	echo "     $subject    "
+#	find $subject/BOLD -name bold.nii.gz
+#done
+
+#version 2
+#Print the location for each bold file found, for each subject
+#In six months, I rather read this first to ensure I find bold files
+#You can now run fslinfo with $bold_file
+
+subject=$subjects
+for bold_file in $(find $subject/BOLD -name bold.nii.gz) ; do
+	echo "I found $bold_file"
+done
+
+

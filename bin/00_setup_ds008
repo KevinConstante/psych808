@@ -1,0 +1,55 @@
+#!/bash/bin 
+
+#This is a script to tidyup things
+
+if [ -d  ~/Projects/ds008 ] ; then 
+	if [ $? -eq 0 ] ; then
+	echo "ds008 directory exists. Please remove it and rerun. Exiting"
+	exit 1
+	fi;
+else 
+	echo 	"ds008 directoy does not exist" ; 
+	echo "changing directories"
+	cd ~/Projects
+	tar xzvf /nfs/turbo/arcts-dads-nii-open/classdata/ds008_raw.tgz
+	
+fi	
+
+#Now removing other anatomical files from  ~/Projects/ds008/$subject/anatomy 
+ofmri=$HOME/Projects/ds008
+cd $ofmri
+subjects=$(ls -d sub???)
+
+for subject  in $subjects ; do
+       echo ;
+       echo "Removing files for $subject" ;
+       if [ -s ~/Projects/ds008/$subject/anatomy/highres001.nii.gz ] ; then
+   ###       REMOVE CONTENTS EXCEPT highres001.nii.gz ;
+#        rm  $subject/anatomy/* !(highres001.nii.gz)
+                cd ~/Projects/ds008/$subject/anatomy   
+                rm highres001_brain_mask.nii.gz highres001_brain.nii.gz inplane_brain.nii.gz inplane.nii.gz
+               if [ $? -eq 0 ] ; then
+                        echo "Removed files" ;
+                        echo " Retained $subject highres001.nii.gz "
+                fi
+        else
+                echo "$subject has no highres001.nii.gz"
+                fi ;
+done
+
+#Now removing QA dir from ~/Projects/ds008/$subject/BOLD
+cd $ofmri
+for subject in $subjects ; do
+for task_run in task001_run001 task001_run002 task001_run003 task002_run001 task002_run002 task002_run003 ; do
+        if [ -d $subject/BOLD/$task_run/QA ] ; then
+                rm -r $subject/BOLD/$task_run/QA        
+                if [ $? -eq 0 ] ; then
+                         echo "Removed $subject $task_run QA dir"
+                fi
+       else
+                echo "$subject $task_run does not exist"
+        fi;
+done
+done
+
+

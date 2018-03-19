@@ -1,0 +1,42 @@
+#!/bash/bin 
+
+#This is s script for motion assesmnet 
+ 
+ofmri=$HOME/Projects/ds008
+
+cd $ofmri
+
+
+#listing bold files example 1
+#bold_files=$(ls sub???/BOLD/task*/bold.nii.gz)
+
+#for bold_file in  $bold_files; do
+#	echo $bold_file
+#	echo  $bold_file >> ~/Projects/output/example1.txt
+#done
+
+#listing bold files example 2
+#bold_files=$(echo sub???/BOLD/task*/bold.nii.gz)
+
+#for bold_file in  $bold_files; do
+#       echo $bold_file
+#       echo  $bold_file >> ~/Projects/output/example2.txt
+#done
+
+#listing bold files example 3
+
+#bold_files=$(find sub???/BOLD/task*/bold.nii.gz)
+
+#for bold_file in  $bold_files; do
+#       echo $bold_file
+#       echo  $bold_file >> ~/Projects/output/example3.txt
+#done
+
+#Listing bold files example 4, using sort 
+
+bold_files=$(echo sub???/BOLD/task*)
+
+for bold_file in  $bold_files; do
+       echo $bold_file
+       echo  $bold_file >> ~/Projects/output/example4.txt
+done

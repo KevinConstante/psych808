@@ -1,0 +1,22 @@
+#!/bash/bin
+#This is a script for brain extraction from anatomical file
+outputlog=~/Projects/01_brain_extraction_ds008.log
+ofmri=~/Projects/ds008
+cd $ofmri
+subjects=$(ls -d sub???)
+
+date >> $outputlog
+for subject in $subjects ; do
+	echo "running bet on $subject"
+	echo "running bet on $subject" >> $outputlog  
+	bet $subject/anatomy/highres001.nii.gz $subject/anatomy/highres001_brain.nii.gz -R -m
+	if [ $? -eq 0 ] ; then 
+		echo "bet highres001.nii.gz highres001_brain.nii.gz -R -m " >> $outputlog
+		echo "Success" >> $outputlog
+		echo "Success"
+	fi;
+done 
+
+date >> $outputlog
+
+

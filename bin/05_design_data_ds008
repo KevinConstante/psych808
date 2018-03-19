@@ -1,0 +1,50 @@
+#!/bash/bin 
+#This is s script to edit design_template
+
+#Difference from Original design.fsf design_task001_template.fsf
+#33c33
+#< set fmri(outputdir) "/nfs/turbo/arcts-dads-nii-open/kconst/tmp/sub004/model/task001_run001"
+#---
+#> set fmri(outputdir) "/nfs/turbo/arcts-dads-nii-open/kconst/tmp/sub001/model/task001_run002"
+#270c270
+#< set feat_files(1) "/nfs/turbo/arcts-dads-nii-open/kconst/tmp/sub004/BOLD/task001_run001/bold"
+#---
+#> set feat_files(1) "/nfs/turbo/arcts-dads-nii-open/kconst/tmp/sub001/BOLD/task001_run002/bold"
+#276c276
+#< set highres_files(1) "/nfs/turbo/arcts-dads-nii-open/kconst/tmp/sub004/anatomy/highres001_brain"
+#---
+#> set highres_files(1) "/nfs/turbo/arcts-dads-nii-open/kconst/tmp/sub001/anatomy/highres001_brain"
+
+
+#Working file: ~/Projects/design_task001_template
+
+ofmri=~/Projects/ds008
+
+cd $ofmri
+
+bold_files=$(find sub??? -name bold.nii.gz | sort)
+bold_file=$(echo $bold_files | awk '{ print $1 }')
+
+bold_dims=$(fslinfo $bold_file | grep dim4)
+
+DS008_FMRI_TR=$(echo $bold_dims | awk '{ print $4 }')
+#I am confused. This script will onlt work if the bold file is set to a signle subject in the temp folder. 
+#Also this script will only work if the output files are set up to be stored under the tmp directory. 
+#echo $DS008_FMRI_TR
+DS008_NVOLS=$(echo $bold_dims | awk '{ print $2 }')
+
+subjects=$(ls sub??? -d)
+task001_run=task001_run001 task001_run002 task001_run003
+DS008_SUBJECT=$subject
+
+#variable for outputdir 
+for subject in $subjects; do 
+	for task001 in $task_001_run
+	OUTPUTDIR=~/Projects/tmp/$subject/model/task001
+echo $OUTPUTDIR
+done
+
+
+
+
+

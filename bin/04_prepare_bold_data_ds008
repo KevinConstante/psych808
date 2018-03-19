@@ -1,0 +1,52 @@
+#!/bash/bin 
+
+#This is a script for detecting motion outliers
+ofmri=$HOME/Projects/ds008
+
+cd $ofmri
+
+#Creating Motion Assesment Folder in each $subject/BOLD/task*
+#If it exist, delete it, create a new one
+#If it does not exisrt, create a new one 
+
+bold_files=$(find sub??? -name bold.nii.gz | sort)
+
+for bold_file in $bold_files ; do 
+	bold_dir=$(dirname $bold_file) 
+	motion_dir="$bold_dir/motion_assess"
+	echo $motion_dir
+	if [ -d $motion_dir ] ; then 
+		rm -r $motion_dir
+		echo "Removed old $motion_dir"
+		mkdir $motion_dir
+	else 
+		echo "making $motion_dir"
+		mkdir $motion_dir 
+	fi
+
+#Run FSL MOTION OUTLIER 
+
+    fsl_motion_outliers -i $bold_file \
+           -o $motion_dir/confound.txt \
+           -s $motion_dir/frame_displacement_vals.txt \
+           -v --fd --thresh=0.9 \
+           -p $motion_dir/frame_displacement_plot | tee $motion_dir/outlier.txt
+    # if there isn't a confound.txt file, create an empty one
+    if [ -e $motion_dir/confound.txt ] ; then
+        echo "fsl_motion_outliers created confound.txt"
+    else
+        echo "No extreme motion found; creating empty confound.txt"
+        touch $motion_dir/confound.txt
+
+#check for confound txt, if does not exist, create one
+
+	if [ -s $motion_dir/confound.txt ] ; then 
+		echo "confound.txt exist"
+	else
+		echo "No motion outliers were found"
+		echo "Creating empty confound.txt file"
+		touch $motion_dir/confound.txt
+	fi
+done
+
+
