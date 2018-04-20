@@ -1,5 +1,5 @@
 # This a document of scripts in ~/Projects/scripts
-
+last updated: 04/20/2018
 ======================================================================
 
 00_setup_ds008
@@ -13,9 +13,20 @@ It will organize the directories that is used by the UM fMRI Lab.
 
 01_brain_extraction_ds008
 
-This script will use bet for each subject's autonomy file
+This script will use bet for each sub*/anatomy/highres_001.nii.gz
+In each subject's anatomical dir, will create highres_001_brain.nii.gz
+Will created or update $Projects/output.log 
 
 
+===================================================================
+
+01_brain_extraction_QC_ds008
+
+This is a script that will check if 
+highres001.nii.gz and highres001_brain.nii.gz exist
+if both files exist, will create an overlay
+It will creat .png files of the slices:coronal, axial, saggitial
+at 30% 40% 50% 60% and 70% in the x y z directions  
 
 ====================================================================
 
@@ -23,7 +34,8 @@ This script will use bet for each subject's autonomy file
 
 This script uses fsl_info for each subjects anatomical and bold_file.
 It will print the dims and pdims.
-This script does it the old fashion way: variables are set for each task and each run.
+This script does it the old fashion way: variables are set for each task 
+and each run.
 
 
 
@@ -34,7 +46,8 @@ This script does it the old fashion way: variables are set for each task and eac
 This script uses fsl_info for each subjects anatomical and bold_file.
 It will print the dims and pdims
 This script is the same as 02_check_images_ds008.
-It used bold_files=$(find sub??? -name .bold.nii.gz). This is a list of each bold_file.
+It used bold_files=$(find sub??? -name .bold.nii.gz). 
+This is a list of each bold_file.
 
 
 =================================================================
@@ -42,18 +55,63 @@ It used bold_files=$(find sub??? -name .bold.nii.gz). This is a list of each bol
 03_fix_bold_TR_ds008
 
 This script will change the TR of bold file from 1.000000 to 2.000000 
-
+Uses fslinfo for each bold_file 
+Uses grep to grab the first 3 dims, and saves it is each one 
+It will create a variable, new_TR, with the 3 dims that were saves and 2.000000
+It will use fslchpixdim on the bold_file with new_TR
 
 
 ================================================================
 
 04_prepare_bold_data_ds008
 
-This script will create motion assesment folder in bold_file.
+This script will create motion assesment folder in sub*/BOLD/task*.
 It will then use fsl_motion_outliers to dectect motion. 
-Output of fsl_motion_outliers goes into the motiona assessment folder of the bold_file.
-The script checks if a confound.txt file was created. Lack of confound.txt indicates that no motion outliers were detected.
+Output of fsl_motion_outliers goes into the motion assessment folder of the
+bold_file.
+The script checks if a confound.txt file was created. Lack of confound.txt
+indicates that no motion outliers were detected.
 If the confound.txt does not exist, then an empty confound.txt is created.
 
 
 ==============================================================
+
+05_design_data_ds008
+
+This is script that does not fully work. It attempted to modify a design.fsf 
+See new script below. 
+
+
+==================================================================
+
+05_run_feat_task001_ds008
+
+This script assumes that you have templatized a design.fsf for a first level
+analysis. This templatized design.fsf should have variables to fill in.
+This script for each subject will fill in that information and then run the 
+design.fsf first level analysis. 
+
+=======================================================================
+
+06_run_feat_level2_ds008
+
+This script will find, for each subject, the names of all the .feat
+directories created by the first level feat runs.  It will determine
+whether a second level feat run should be done (not if there is only
+one run), will use a templatized second level design.fsf to write the
+appropriate second level .fsf file for the number
+of runs, and finally, it will run feat using that .fsf file.
+
+==================================================================
+
+make_bet_slices_ds008.py
+
+For each subject, will use the template html file and create a html for that subject.
+This script assumes that the template html that gathers all the created .png images already exist.
+
+=================================================================
+
+motion_correct_test.py
+
+This is a test script. For a single subject, will create a html of the subject's motion assessment. 
+

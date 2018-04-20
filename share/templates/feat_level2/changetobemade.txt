@@ -1,0 +1,29 @@
+33,34c33
+< # set fmri(outputdir) "/home/bennet/Projects/ds008/sub001/model/lev2"
+< set fmri(outputdir) "{output_dir}"
+---
+> set fmri(outputdir) "/home/kconst/Projects/ds008/sub005/model/task001"
+264c263
+< set fmri(ncopeinputs) 2
+---
+> set fmri(ncopeinputs) 4
+271a271,276
+> # Use lower-level cope 3 for higher-level analysis
+> set fmri(copeinput.3) 1
+> 
+> # Use lower-level cope 4 for higher-level analysis
+> set fmri(copeinput.4) 1
+> 
+273,274c278
+< # set feat_files(1) "/home/bennet/Projects/ds008/sub001/model/task001_run001.feat"
+< set feat_files(1) "{feat_run1}"
+---
+> set feat_files(1) "/home/kconst/Projects/ds008/sub005/model/task001_run001.feat"
+277c281
+< set feat_files(2) "{feat_run2}"
+---
+> set feat_files(2) "/home/kconst/Projects/ds008/sub005/model/task001_run002.feat"
+280c284
+< set feat_files(3) "{feat_run3}"
+---
+> set feat_files(3) "/home/kconst/Projects/ds008/sub005/model/task001_run003.feat"
